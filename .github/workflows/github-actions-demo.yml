@@ -1,7 +1,7 @@
 name: GitHub Actions Demo
 permissions:
   contents: read
-cache-mode: none
+
 on:
   push:
     branches: [ main ]
@@ -29,5 +29,19 @@ jobs:
         run: echo "${{ github.ref_name }}"
       - name: List repository files
         run: git ls-files
-  
+  Test:
+    runs-on: ubuntu-26.04
+    if: github.event_name == 'workflow_dispatch'
+    needs: Build
+    environment: Test
+    steps:
+      - run: echo "Testing stuff"
+
+  Load-Test:
+    runs-on: ubuntu-26.04
+    if: github.event_name == 'workflow_dispatch'
+    needs: Build
+    environment: Load-Test
+    steps:
+      - run: echo "Testing Load ;)"
   

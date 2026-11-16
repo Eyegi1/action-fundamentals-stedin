@@ -31,3 +31,7 @@ runs:
 
     - id: hello-action
       uses: ./.github/actions/hello-world-composite-action
+
+    - name: Run goodbye.sh
+      shell: bash
+      run: ./goodbye.sh

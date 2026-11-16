@@ -43,5 +43,7 @@ jobs:
     needs: Build
     environment: Load-Test
     steps:
-      - run: echo "Testing Load ;)"
+      - run: |
+          echo "Testing Load ;)....."
+          sleep 15
   

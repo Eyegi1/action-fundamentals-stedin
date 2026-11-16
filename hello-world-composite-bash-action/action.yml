@@ -1,35 +1,32 @@
-name: 'Hello World'
-description: 'Greet someone'
+name: Hello World (bash)
+description: Greet someone and record the time
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  who-to-greet:
+    description: Who to greet
     required: true
-    default: 'World'
+    default: World
 outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.random-number-generator.outputs.random-number }}
+  time:
+    description: The time we greeted you
+    value: ${{ steps.time.outputs.time }}
 runs:
-  using: "composite"
+  using: composite
   steps:
     - name: Set Greeting
-      run: echo "Hello $INPUT_WHO_TO_GREET."
       shell: bash
+      run: echo "Hello $INPUT_WHO_TO_GREET."
       env:
         INPUT_WHO_TO_GREET: ${{ inputs.who-to-greet }}
 
-    - name: Random Number Generator
-      id: random-number-generator
-      run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
+    - name: Get the time
+      id: time
       shell: bash
+      run: echo "time=$(date)" >> "$GITHUB_OUTPUT"
 
-    - name: Set GitHub Path
-      run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+    - name: Add the action folder to the PATH
       shell: bash
-      env:
-        GITHUB_ACTION_PATH: ${{ github.action_path }}
+      run: echo "$GITHUB_ACTION_PATH" >> "$GITHUB_PATH"
 
     - name: Run goodbye.sh
-      run: goodbye.sh
       shell: bash
-
+      run: goodbye.sh
